@@ -1,0 +1,631 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-color: #38222B; /*#333*/
+    background-image: url(images/tela-descanso/logo.png);
+    background-repeat: no-repeat;
+    background-position: center;
+    /* Opcional: para ajustar o tamanho da imagem */
+    background-size: contain; /* ou cover, conforme o efeito desejado */
+}
+
+/* Tela de Descanso */
+#tela-descanso {
+    position: relative;
+    width: 100vw;
+    height: 100vh;
+}
+
+.fundo-imagem {
+    width: 100vw;
+    height: 100vh;
+    object-fit: fill;
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 1;
+}
+
+.retangulo-1 {
+    position: absolute;
+    width: 100vw;
+    height: auto;
+    z-index: 2;
+    top: 0;
+}
+
+.retangulo-2 {
+    position: absolute;
+    bottom: 0;
+    width: 100vw;
+    height: auto;
+    z-index: 2;
+}
+
+.logo-botao {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    top: 50%;
+    left: 57%; /* de 50% para 60% para deslocar para a direita */
+    transform: translate(-50%, -50%);
+    z-index: 3;
+}
+
+/* Contêiner interno com a animação (apenas scale e opacidade) */
+.logo-botao-inner {
+    transform-origin: center;
+    animation: expandScreen 0.5s forwards;
+}
+
+@keyframes expandScreen {
+    from {
+      transform: scale(0);
+      opacity: 0;
+    }
+    to {
+      transform: scale(1);
+      opacity: 1;
+    }
+}
+
+.logo {
+    width: 30vw;
+    height: auto;
+}
+
+.botao {
+    position: relative;
+    left: 1vw;
+    margin-top: 5vh;
+    width: 28vw;
+    height: auto;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+}
+
+.botao:active {
+    transform: scale(0.9);
+}
+
+  
+/* Tela Menu */
+.menu {
+    display: none;
+    position: relative;
+    width: 100vw;
+    height: 100vh;
+}
+  
+.menu-ativo {
+    display: block;
+    animation: scaleInScreen 0.3s forwards;
+}
+  
+.menu-fundo {
+    width: 100vw;
+    height: 100vh;
+    object-fit: fill;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 1;
+}
+
+/* Retângulo no canto superior esquerdo */
+.retangulo-menu-esquerda {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 2;
+    width: 100vw;
+    height: auto;
+}
+
+/* Animações */
+@keyframes shrinkScreen {
+    from {
+      transform: scale(1);
+      opacity: 1;
+    }
+    to {
+      transform: scale(0);
+      opacity: 0;
+    }
+}
+  
+@keyframes scaleInScreen {
+    from {
+      transform: scale(0);
+      opacity: 0;
+    }
+    to {
+      transform: scale(1);
+      opacity: 1;
+    }
+}
+
+/* Logo do Menu */
+.menu-logo {
+    position: absolute;
+    top: 15%;
+    left: 30%;
+    transform: translateX(-50%);
+    z-index: 2;
+    width: 30vw;
+    height: auto;
+}
+
+/* Container dos botões */
+.menu-botoes {
+    position: absolute;
+    bottom: 0;
+    left: 6vw;
+    display: flex;
+    gap: 20px;
+    z-index: 3;
+}
+
+/* Botões do Menu */
+.menu-botao {
+    width: 10vw;
+    height: auto;
+    opacity: 0;
+    transform: translateY(10vh);
+    transition: transform 0.2s ease;
+    animation: slideUpHalf 0.8s forwards;
+}
+
+/* Animação para os botões */
+@keyframes slideUpHalf {
+    from {
+        opacity: 0;
+        transform: translateY(10vh);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(5.6vh);
+    }
+}
+
+/* Sequência de animação para os botões */
+.menu-botao:nth-child(1) {
+    animation-delay: 0.2s;
+}
+.menu-botao:nth-child(2) {
+    animation-delay: 0.4s;
+}
+.menu-botao:nth-child(3) {
+    animation-delay: 0.6s;
+}
+.menu-botao:nth-child(4) {
+    animation-delay: 0.8s;
+}
+.menu-botao:nth-child(5) {
+    animation-delay: 1s;
+}
+
+/* Transições para fade */
+#menu {
+  opacity: 1;
+  transition: opacity 1s ease;
+}
+
+
+/* Container para sobrepor as imagens, posicionado à direita e centralizado verticalmente */
+.vip-overlay-container {
+    position: absolute;
+    top: 50%;
+    right: 3.33vw;      /* Aproximadamente 48px */
+    transform: translateY(-50%);
+    width: 36vw;        /* Aproximadamente 518.4px */
+    height: 36vw;       /* Mantém a proporção */
+    z-index: 2;
+}
+
+
+
+/* Centraliza as imagens dentro do container */
+.vip-overlay-container img {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+/* Folha Esquerda: tamanho reduzido em 20% e convertido para vw */
+.vip-folha-esquerda {
+    width: 30vw;   /* Aproximadamente 432px */
+    height: auto;
+    z-index: 2;
+    animation: moveLeftLeaf 1s forwards;
+}
+
+@keyframes moveLeftLeaf {
+    from {
+        transform: translate(-50%, -50%);
+        opacity: 0;
+    }
+    to {
+        transform: translate(-50%, -50%) translate(-10.8vw, -14.7vw);
+        opacity: 1;
+    }
+}
+
+
+
+/* Folha Direita: tamanho reduzido e conversão para vw */
+.vip-folha-direita {
+    width: 42vw;   /* Aproximadamente 604.8px */
+    height: auto;
+    z-index: 3;
+    animation: moveRightLeaf 1s forwards;
+}
+
+@keyframes moveRightLeaf {
+    from {
+        transform: translate(-50%, -50%);
+        opacity: 0;
+    }
+    to {
+        transform: translate(-50%, -50%) translate(6vw, 15vw);
+        opacity: 1;
+    }
+}
+
+
+
+/* Mulher: tamanho e margens reduzidos em 20% */
+.vip-mulher {
+    z-index: 4;
+    width: 63vw;    /* Aproximadamente 907.2px */
+    height: auto;
+    margin-top: 5.2px;
+    margin-left: 6px;
+}
+
+
+
+
+/* Fundo Hexágono: tamanho reduzido */
+.vip-fundo-hex {
+    z-index: 1;
+    width: 36vw;   /* Aproximadamente 518.4px */
+    height: auto;
+}
+
+
+
+/* Hexágono Topo: tamanho reduzido */
+.vip-topo-hex {
+    z-index: 5;
+    opacity: 0.8;
+    width: 27vw;   /* Aproximadamente 388.8px */
+    height: auto;
+}
+
+
+
+/* ====================================================== */
+/* Animação "vento" aplicada nos wrappers das folhas */
+/* ====================================================== */
+
+/* Wrapper para posicionar e aplicar o efeito de oscilação */
+.leaf-wrapper {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+/* Wrapper para a folha esquerda: leve oscilação */
+.leaf-wrapper.left {
+    z-index: 2;
+    animation: windLeft 3s infinite ease-in-out 1s;
+}
+
+/* Wrapper para a folha direita */
+.leaf-wrapper.right {
+    z-index: 3;
+    animation: windRight 3s infinite ease-in-out 1s;
+}
+
+/* Animação de vento para a folha esquerda */
+@keyframes windLeft {
+    0% { transform: translate(-50%, -50%) rotate(0deg); }
+    50% { transform: translate(-50%, -50%) rotate(-3deg); }
+    100% { transform: translate(-50%, -50%) rotate(0deg); }
+}
+
+/* Animação de vento para a folha direita */
+@keyframes windRight {
+    0% { transform: translate(-50%, -50%) rotate(0deg); }
+    50% { transform: translate(-50%, -50%) rotate(3deg); }
+    100% { transform: translate(-50%, -50%) rotate(0deg); }
+}
+
+.galeria {
+    display: none;
+    opacity: 0;
+    transition: opacity 1s ease;
+    width: 100vw;
+    height: 100vh;
+    position: relative; /* Para posicionar os elementos filhos */
+    overflow: hidden;
+    transform: translateX(0); /* <- importante para o slide funcionar corretamente */
+}
+
+.galeria-fundo {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 1;
+}
+
+/* Botão que abre a galeria */
+#btnGaleria {
+    position: relative;
+    z-index: 100;
+    cursor: pointer;
+}
+
+/* Container do conteúdo da galeria (foto, botão de fechar e legenda) */
+.galeria-content {
+    position: absolute;
+    top: 50%;
+    left: 6.2vw; /* espaço para a barra laranja (que tem 10vw) */
+    transform: translateY(-50%);
+    z-index: 5;
+    width: auto;
+    text-align: center;
+}
+
+
+/* Botão de fechar */
+.galeria-fechar {
+    position: absolute;
+    top: -28px;
+    right: -10px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    z-index: 10;
+    width: 32px;
+    height: 32px;
+    padding: 0;
+}
+
+.galeria-fechar img {
+    width: 130%;
+    height: auto;
+}
+
+.foto-container {
+    position: relative;
+    width: 85vw;        /* tamanho fixo proporcional à largura da tela */
+    max-width: 90vw;    /* limite de segurança */
+    height: 82.1vh;
+    margin: 0;
+}
+
+
+.foto-principal {
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+
+  
+  @keyframes slideOut {
+    from {
+      transform: translateX(0);
+      opacity: 1;
+    }
+    to {
+      transform: translateX(-100%);
+      opacity: 0;
+    }
+  }
+  
+  @keyframes slideIn {
+    from {
+      transform: translateX(100%);
+      opacity: 0;
+    }
+    to {
+      transform: translateX(0);
+      opacity: 1;
+    }
+  }
+  
+
+  @keyframes slideOutLeft {
+    from {
+        transform: translateX(0%);
+        opacity: 1;
+    }
+    to {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+}
+
+@keyframes slideInRight {
+    from {
+        transform: translateX(-100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0%);
+        opacity: 1;
+    }
+}
+
+/* Container geral do popup */
+.popup-zoom {
+    display: none;
+    position: fixed;
+    inset: 0;
+    z-index: 999;
+    align-items: center;
+    justify-content: center;
+    transition: opacity 0.5s ease;
+}
+
+/* Fundo escurecido que cobre toda a tela */
+.popup-overlay {
+    position: absolute;
+    inset: 0;
+    background-color: rgba(0,0,0,0.8);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity 0.5s ease;
+    padding: 5vw; /* margens em todos os lados */
+    box-sizing: border-box;
+}
+
+/* Área central do conteúdo (imagem) */
+.popup-content {
+    max-width: 100%;
+    max-height: 100%;
+    animation: fadeInZoom 0.4s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.imagem-zoom {
+    max-width: 90vw;
+    max-height: 90vh;
+    width: auto;
+    height: auto;
+    object-fit: contain;
+    border-radius: 10px;
+    touch-action: pinch-zoom;
+}
+
+
+/* Animação suave de entrada */
+@keyframes fadeInZoom {
+    from {
+        opacity: 0;
+        transform: scale(0.9);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+@keyframes swipeLeft {
+  0% {
+    opacity: 0;
+    transform: translateX(60px) scale(0.98);
+    filter: blur(2px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0) scale(1);
+    filter: blur(0);
+  }
+}
+
+@keyframes swipeRight {
+  0% {
+    opacity: 0;
+    transform: translateX(-60px) scale(0.98);
+    filter: blur(2px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0) scale(1);
+    filter: blur(0);
+  }
+}
+
+  
+  
+
+/* Container da barra lateral esquerda */
+.barra-lateral-galeria {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 10vw;
+    height: 100vh;
+    z-index: 5;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    pointer-events: none; /* deixa os elementos clicáveis passarem por aqui */
+}
+
+/* Imagem da barra laranja */
+.barra-imagem {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: fill;
+    z-index: 1;
+    pointer-events: none;
+}
+.botao-central-galeria {
+    position: absolute;
+    top: 50%;
+    left: 6.2vw; /* centro da barra de 10vw */
+    transform: translate(-50%, -50%);
+    z-index: 1000; /* maior que todo o resto */
+    background: none;
+    border: none;
+    cursor: pointer;
+    pointer-events: auto;
+    width: 5vw;
+    height: auto;
+}
+
+.botao-central-galeria img {
+    width: 100%;
+    height: auto;
+}
+
+/* Áreas invisíveis clicáveis do botão hexagonal */
+.hex-zone {
+    position: absolute;
+    top: 0;
+    height: 100%;
+    width: 50%;
+    z-index: 1001;
+    cursor: pointer;
+    pointer-events: auto;
+  }
+  
+  /* Metade esquerda = voltar */
+  .hex-esquerda {
+    left: 0;
+  }
+  
+  /* Metade direita = próximo */
+  .hex-direita {
+    right: 0;
+  }
+  

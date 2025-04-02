@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+  <title>Tela de Descanso</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<!-- Tela de Descanso -->
+<section id="tela-descanso">
+  <!-- Imagem de fundo -->
+  <img src="images/tela-descanso/fundo.png" alt="Imagem de Fundo" class="fundo-imagem">
+  <!-- Imagem no canto superior -->
+  <img src="images/tela-descanso/retangulo-1.png" alt="Imagem 1" class="retangulo-1">
+  <!-- Imagem no canto inferior -->
+  <img src="images/tela-descanso/retangulo-2.png" alt="Imagem 2" class="retangulo-2">
+  <div class="logo-botao">
+    <!-- Contêiner interno para animação -->
+    <div class="logo-botao-inner">
+      <!-- Logo no centro -->
+      <img src="images/tela-descanso/logo.png" alt="Logo" class="logo">
+      <!-- Botão abaixo do logo -->
+      <img src="images/tela-descanso/botao.png" alt="Botão" class="botao" id="btnIniciarNavegacao">
+    </div>
+  </div>
+</section>
+
+
+   <!-- Seção do Menu -->
+   <section id="menu" class="menu">
+    <!-- Imagem de Fundo (caso seja uma imagem de fundo) -->
+    <img src="images/tela-menu/fundo.png" alt="Fundo do Menu" class="menu-fundo">
+
+    <img src="images/tela-menu/retangulo-2.png" alt="Retângulo Topo Esquerdo" class="retangulo-menu-esquerda">
+
+      <!-- Container da Composição VIP -->
+  <div class="vip-overlay-container">
+    <!-- Fundo do hexágono -->
+    <img src="images/tela-menu/foto/hexagono-fundo.png" alt="Fundo do Hexágono" class="vip-fundo-hex">
+
+    <!-- Topo do hexágono (contorno laranja) -->
+    <img src="images/tela-menu/foto/hexagono-topo.png" alt="Topo do Hexágono" class="vip-topo-hex">
+
+    <!-- Foto da mulher -->
+    <img src="images/tela-menu/foto/foto.png" alt="Mulher" class="vip-mulher">
+
+    <!-- Folhagem lateral esquerda (wrapper adicionado para o efeito de vento) -->
+    <div class="leaf-wrapper left">
+      <img src="images/tela-menu/foto/plantas-lado-esquerdo.png" alt="Folha Esquerda" class="vip-folha-esquerda">
+    </div>
+
+    <!-- Folhagem lateral direita (wrapper adicionado para o efeito de vento) -->
+    <div class="leaf-wrapper right">
+      <img src="images/tela-menu/foto/plantas-lado-direito.png" alt="Folha Direita" class="vip-folha-direita">
+    </div>
+  </div>
+
+    <!-- Logo (posição semelhante ao exemplo) -->
+    <img 
+      src="images/tela-menu/logo.png" 
+      alt="Logo" 
+      class="menu-logo"
+    />
+ 
+      <!-- Container dos Botões -->
+    <div class="menu-botoes">
+      <img src="images/tela-menu/botoes/PROJETO.png" alt="Botão Projeto" class="menu-botao" id="btnProjeto" />
+      <img src="images/tela-menu/botoes/LOCALIZAÇÃO.png" alt="Botão Localização" class="menu-botao" id="btnLocalizacao" />
+      <img src="images/tela-menu/botoes/FILME.png" alt="Botão Filme" class="menu-botao" id="btnFilme" />
+      <img src="images/tela-menu/botoes/GALERIA.png" alt="Botão Galeria" class="menu-botao" id="btnGaleria" />
+      <img src="images/tela-menu/botoes/CHAINCORP.png" alt="Botão ChainCorp" class="menu-botao" id="btnChainCorp" />
+    </div>
+  </section>
+
+<!-- Seção da Galeria -->
+<section id="galeria" class="galeria">
+  <!-- Fundo da galeria -->
+  <img src="images/tela-galeria/fundo.png" alt="Fundo da Galeria" class="galeria-fundo">
+
+  <!-- Container que segura todo o conteúdo da galeria -->
+  <div class="galeria-content">
+    <!-- Área principal da foto -->
+    <div class="foto-container">
+        <!-- Foto principal -->
+        <img src="images/tela-galeria/FOTOS COM LUPA/Bicicletario.png" alt="Foto da Galeria" class="foto-principal">
+
+        <!-- Botão de Fechar -->
+        <button class="galeria-fechar" id="btnFecharGaleria">
+          <img src="images/x.png" alt="Fechar" />
+        </button>
+    </div>
+  </div>
+
+  <div class="barra-lateral-galeria">
+    <img src="images/tela-galeria/hexagono.png" alt="Barra Lateral" class="barra-imagem">
+  
+    <!-- Botão hexagonal com áreas clicáveis -->
+    <div class="botao-central-galeria">
+      <img src="images/tela-galeria/botao-hexagono.png" alt="Botão-Galeria">
+      <div class="hex-zone hex-esquerda" id="btnPrevFoto"></div>
+      <div class="hex-zone hex-direita" id="btnNextFoto"></div>
+    </div>
+  </div>
+
+</section>
+
+<!-- Popup de visualização da imagem -->
+<div id="popupZoom" class="popup-zoom">
+  <div class="popup-overlay">
+    <div class="popup-content">
+      <img src="images/tela-galeria/FOTOS/Chaincorp_Vila_Prudente_Bicicletario_HR.jpg" alt="Imagem Zoom" class="imagem-zoom" />
+    </div>
+  </div>
+</div>
+
+
+  <script src="script.js"></script>
+</body>
+</html>
