@@ -723,10 +723,11 @@ body {
   
   .barra-lateral-projeto {
     position: absolute;
-    top: 0;
+    top: 50%; /* Posiciona no meio */
     left: -0.5vw;
+    transform: translateY(-50%); /* Centraliza verticalmente */
     width: 10vw;
-    height: 100vh;
+    height: 90vh; /* Altura desejada */
     z-index: 5;
     display: flex;
     align-items: center;
@@ -734,13 +735,14 @@ body {
     pointer-events: none;
   }
   
+  
   .barra-lateral-projeto .barra-imagem {
     position: absolute;
     top: 0;
     left: 0;
-    width: auto;
+    width: 100%;
     height: 100%;
-    object-fit: contain;
+    object-fit: fill;
     z-index: 1;
     pointer-events: none;
   }
@@ -748,7 +750,7 @@ body {
 .botoes-hexagonais-projeto {
   position: absolute;
   top: 50%;
-  left: 5vw; /* 50% da largura da barra (que é 10vw) */
+  left: 9.2vw; /* 50% da largura da barra (que é 10vw) */
   transform: translate(-50%, -50%);
   z-index: 1000;
   display: flex;
@@ -761,7 +763,7 @@ body {
   
   
   .botao-projeto {
-    height: 18vh;     /* por exemplo, 12% da altura da tela */
+    height: 14vh;     /* por exemplo, 12% da altura da tela */
     width: auto;
     cursor: pointer;
     transition: transform 0.2s;
