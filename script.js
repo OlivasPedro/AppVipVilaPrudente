@@ -1,3 +1,6 @@
+let wasDragged = false;
+
+
 const botao = document.getElementById("btnIniciarNavegacao");
 const telaDescanso = document.getElementById("tela-descanso");
 const novaTela = document.getElementById("menu");
@@ -28,6 +31,7 @@ function entrarEmTelaCheia() {
     }
 }
 
+
 const btnGaleria = document.getElementById("btnGaleria");
 const menuTela = document.getElementById("menu");
 const galeriaTela = document.getElementById("galeria");
@@ -46,6 +50,8 @@ btnGaleria.addEventListener("click", function() {
 });
 
 const btnFecharGaleria = document.getElementById("btnFecharGaleria");
+
+
 
 btnFecharGaleria.addEventListener("click", function () {
     // Garante que a galeria esteja na posição correta para animar
@@ -164,11 +170,16 @@ const nomesDasImagens = [
   
   // Abrir popup ao clicar na imagem principal
   imagemPrincipal.addEventListener("click", () => {
+    if (!wasDragged) {
       popupZoom.style.display = "flex";
       setTimeout(() => {
-          popupOverlay.style.opacity = 1;
+        popupOverlay.style.opacity = 1;
       }, 10);
+    }
+    // Resetar após o clique
+    wasDragged = false;
   });
+  
   
   // Fechar popup ao clicar fora da imagem
   popupOverlay.addEventListener("click", (event) => {
@@ -238,4 +249,113 @@ btnProjeto.addEventListener("click", () => {
     projetoTela.style.display = "block";
     projetoTela.classList.add("ativo");
   }, 500);
+});
+
+// ========== SWIPE NA GALERIA ==========
+let startX = 0;
+let isDragging = false;
+
+imagemPrincipal.addEventListener("touchstart", (e) => {
+  startX = e.touches[0].clientX;
+  isDragging = true;
+});
+
+imagemPrincipal.addEventListener("touchmove", (e) => {
+  if (!isDragging) return;
+  const currentX = e.touches[0].clientX;
+  const diff = currentX - startX;
+
+  // opcional: efeito visual enquanto arrasta (não muda a imagem ainda)
+  imagemPrincipal.style.transform = `translateX(${diff}px)`;
+  imagemPrincipal.style.transition = 'none';
+});
+
+imagemPrincipal.addEventListener("touchend", (e) => {
+  isDragging = false;
+  const endX = e.changedTouches[0].clientX;
+  const diff = endX - startX;
+
+  imagemPrincipal.style.transition = 'transform 0.2s ease';
+  imagemPrincipal.style.transform = 'translateX(0)';
+
+  if (Math.abs(diff) > 50) {
+    if (diff < 0) {
+      trocarImagem("next"); // arrastou pra esquerda
+    } else {
+      trocarImagem("prev"); // arrastou pra direita
+    }
+  }
+});
+
+
+
+let currentX = 0;
+
+
+function startDrag(x) {
+    startX = x;
+    currentX = x;
+    isDragging = true;
+    wasDragged = false;
+    imagemPrincipal.style.transition = 'none';
+  }
+  
+  function drag(x) {
+    if (!isDragging) return;
+    wasDragged = true;
+    currentX = x;
+    const diff = currentX - startX;
+    imagemPrincipal.style.transform = `translateX(${diff}px)`;
+  }
+  
+  function endDrag() {
+    if (!isDragging) return;
+    isDragging = false;
+  
+    const diff = currentX - startX;
+    imagemPrincipal.style.transition = 'transform 0.3s ease';
+    imagemPrincipal.style.transform = 'translateX(0)';
+  
+    if (Math.abs(diff) > 50) {
+      if (diff < 0) {
+        trocarImagem("next");
+      } else {
+        trocarImagem("prev");
+      }
+    }
+  
+    // Reset
+    startX = 0;
+    currentX = 0;
+  }
+  
+
+// TOUCH EVENTS
+imagemPrincipal.addEventListener("touchstart", (e) => {
+  startDrag(e.touches[0].clientX);
+});
+
+imagemPrincipal.addEventListener("touchmove", (e) => {
+  drag(e.touches[0].clientX);
+});
+
+imagemPrincipal.addEventListener("touchend", () => {
+  endDrag();
+});
+
+// MOUSE EVENTS
+imagemPrincipal.addEventListener("mousedown", (e) => {
+  e.preventDefault(); // previne seleção de imagem ou texto
+  startDrag(e.clientX);
+
+  // Adiciona listeners apenas durante o drag
+  const onMouseMove = (e) => drag(e.clientX);
+  const onMouseUp = () => {
+    endDrag();
+    document.removeEventListener("mousemove", onMouseMove);
+    document.removeEventListener("mouseup", onMouseUp);
+  };
+
+  document.addEventListener("mousemove", onMouseMove);
+  document.addEventListener("mouseup", onMouseUp);
 });
