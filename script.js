@@ -116,28 +116,31 @@ const nomesDasImagens = [
   
       return `Chaincorp_Vila_Prudente_${base}_HR.jpg`;
   }
-  
-  // Troca imagem com animação e sincroniza com o popup
   function trocarImagem(direcao) {
-      if (direcao === 'next') {
-          indexAtual = (indexAtual + 1) % nomesDasImagens.length;
-          imagemPrincipal.style.animation = 'swipeRight 0.4s ease';
-      } else {
-          indexAtual = (indexAtual - 1 + nomesDasImagens.length) % nomesDasImagens.length;
-          imagemPrincipal.style.animation = 'swipeLeft 0.4s ease';
-      }
-  
-      const nome = nomesDasImagens[indexAtual];
-      const caminhoGaleria = `images/tela-galeria/FOTOS COM LUPA/${nome}`;
-      const caminhoPopup = `images/tela-galeria/FOTOS/${gerarNomePopup(nome)}`;
-  
-      imagemPrincipal.src = caminhoGaleria;
-      imagemZoom.src = caminhoPopup;
-  
-      setTimeout(() => {
-          imagemPrincipal.style.animation = '';
-      }, 400);
-  }
+    // Aplica animação de saída
+    imagemPrincipal.style.opacity = 0;
+    imagemPrincipal.style.transition = 'opacity 0.2s ease';
+
+    setTimeout(() => {
+        // Atualiza índice
+        if (direcao === 'next') {
+            indexAtual = (indexAtual + 1) % nomesDasImagens.length;
+        } else {
+            indexAtual = (indexAtual - 1 + nomesDasImagens.length) % nomesDasImagens.length;
+        }
+
+        // Atualiza imagem
+        const nome = nomesDasImagens[indexAtual];
+        imagemPrincipal.src = `images/tela-galeria/FOTOS COM LUPA/${nome}`;
+        imagemZoom.src = `images/tela-galeria/FOTOS/${gerarNomePopup(nome)}`;
+
+        // Espera imagem carregar antes de mostrar
+        imagemPrincipal.onload = () => {
+            imagemPrincipal.style.opacity = 1;
+        };
+    }, 300);
+}
+
   
   // Eventos dos botões
   btnNext.addEventListener("click", () => trocarImagem("next"));
@@ -180,15 +183,47 @@ const nomesDasImagens = [
           popupZoom.style.display = "none";
       }, 500);
   }
+
+// ========== VÍDEO ==========
+document.addEventListener("DOMContentLoaded", () => {
+    const btnFilme = document.getElementById("btnFilme");
+    const popupVideo = document.getElementById("popupVideo");
+    const fecharPopupVideo = document.getElementById("fecharPopupVideo");
+    const youtubeFrame = document.getElementById("youtubeFrame");
   
-// Ações para as zonas clicáveis do botão hexágono
-document.getElementById("hexPrev").addEventListener("click", () => {
-    trocarImagem("prev");
+    const youtubeLink = "https://www.youtube.com/embed/TW9d8vYrVFQ";
+  
+    if (btnFilme && popupVideo && fecharPopupVideo && youtubeFrame) {
+      btnFilme.addEventListener("click", () => {
+        youtubeFrame.src = youtubeLink;
+        popupVideo.style.display = "flex";
+        setTimeout(() => {
+          popupVideo.style.opacity = 1;
+        }, 10);
+      });
+  
+      fecharPopupVideo.addEventListener("click", () => {
+        popupVideo.style.opacity = 0;
+        youtubeFrame.src = "";
+        setTimeout(() => {
+          popupVideo.style.display = "none";
+        }, 300);
+      });
+    } else {
+      console.error("❌ Algum dos elementos do popup do vídeo não foi encontrado!");
+    }
+  });
+  
+
+  const btnFecharVideo = document.getElementById("btnFecharVideo");
+
+btnFecharVideo?.addEventListener("click", () => {
+  popupVideo.style.opacity = 0;
+  youtubeFrame.src = "";
+  setTimeout(() => {
+    popupVideo.style.display = "none";
+    popupVideo.classList.remove("ativo");
+  }, 500);
 });
 
-document.getElementById("hexNext").addEventListener("click", () => {
-    trocarImagem("next");
-});
-
-  // MUDAR POSICIONAMENTO DO BOTAO
-  // COLOCAR OS CLIQUES DOS BOTOES COM MAP?
+  

@@ -114,7 +114,32 @@
   </div>
 </div>
 
+<!-- Popup do Vídeo -->
+<div id="popupVideo" class="popup-video">
+  <div class="popup-video-overlay" id="fecharPopupVideo">
+    <div class="popup-video-content" onclick="event.stopPropagation()">
+      
+      <!-- Botão de fechar sobre o vídeo -->
+      <button class="video-fechar" id="btnFecharVideo">
+        <img src="images/x.png" alt="Fechar" />
+      </button>
 
-  <script src="script.js"></script>
+      <!-- Vídeo -->
+      <iframe 
+        id="youtubeFrame"
+        width="100%" 
+        height="100%" 
+        src="" 
+        title="YouTube video player" 
+        frameborder="0"
+        allowfullscreen
+      ></iframe>
+    </div>
+  </div>
+</div>
+
+
+
+  <script src="script.js" defer></script>
 </body>
 </html>
