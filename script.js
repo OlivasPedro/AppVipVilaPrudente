@@ -227,3 +227,15 @@ btnFecharVideo?.addEventListener("click", () => {
 });
 
   
+const btnProjeto = document.getElementById("btnProjeto");
+const projetoTela = document.getElementById("projeto");
+
+btnProjeto.addEventListener("click", () => {
+  menuTela.style.animation = "slideOut 0.8s forwards";
+
+  setTimeout(() => {
+    menuTela.style.display = "none";
+    projetoTela.style.display = "block";
+    projetoTela.classList.add("ativo");
+  }, 500);
+});
