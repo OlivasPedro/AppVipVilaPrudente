@@ -725,7 +725,7 @@ body {
   .barra-lateral-projeto {
     position: absolute;
     top: 50%;
-    left: -0.5vw;
+    left: -1.8vw;
     transform: translateY(-50%);
     width: 8.785vw;
     height: 94vh;
@@ -733,6 +733,7 @@ body {
     align-items: center;
     justify-content: center;
     pointer-events: none;
+    z-index: 99;
 }
   
   .barra-lateral-projeto .barra-imagem {
@@ -764,6 +765,11 @@ body {
     width: auto;
     cursor: pointer;
     transition: transform 0.2s;
+  }
+
+  .botao-projeto-selecionado {
+    height: 14.3vh; /* maior que os 12.3vh padrão */
+    transition: height 0.3s ease;
   }
   
   .botao-projeto:active {
@@ -915,4 +921,22 @@ body {
   to {
     opacity: 0;
   }
+}
+
+.predio-container {
+  position: absolute;
+  bottom: -15.6vh;
+  left: -7vh;
+  height: 132%;
+  display: flex
+;
+  align-items: flex-end;
+  z-index: 0;
+}
+
+.predio-imagem {
+  height: 100%;
+  width: auto;
+  object-fit: contain;
+  pointer-events: none;
 }
