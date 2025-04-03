@@ -771,39 +771,48 @@ body {
     transform: scale(0.95);
   }
   
+  .hex-e-frase {
+    position: absolute;
+    top: 49vh;
+    left: 15vw;
+    transform: translateY(-50%);
+    height: 100vh;
+    aspect-ratio: 1 / 1; /* ou defina largura */
+    z-index: 3;
+  }
+  
   .fundo-geometrico {
     position: absolute;
     top: 0;
-    left: 11.3vw;
-    width: auto;
-    height: 100vh;
-    object-fit: cover;
-    z-index: 2;
-    pointer-events: none;
-  }
-  
-  .hexagonos-centrais {
+    left: -5vh;
+    width: 88.5%;
+    height: 100%;
     object-fit: fill;
-    position: absolute;
-    top: 49vh;
-    left: 16vw;
-    transform: translateY(-50%);
-    width: auto;
-    height: 85vh;
-    z-index: 3;
-    pointer-events: none;
-  }
-  
-  .frase-diferenciais {
-    position: absolute;
-    top: 54%;
-    left: 60vw;
-    transform: translateY(-50%);
-    width: auto;
-    height: 20vh;
-    z-index: 3;
+    z-index: 1;
     pointer-events: none;
 }
+  
+.hexagonos-centrais {
+  position: relative;
+  height: 95vh;
+  width: auto;
+  object-fit: fill;
+  z-index: 2;
+  pointer-events: none;
+  margin-top: 4vh;
+}
+  
+.frase-diferenciais {
+  position: absolute;
+  height: 16vh;
+  width: auto;
+  margin-left: 2vw;
+  top: 58vh;
+  transform: translateY(-50%);
+  z-index: 3;
+  pointer-events: none;
+}
+  
 
 .imagens-superiores {
   position: absolute;

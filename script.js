@@ -398,7 +398,7 @@ iconeButtons.forEach(btn => {
 
     switch (nome) {
       case "pe-direito":
-        caminhoPopup = "images/tela-projeto/diferenciais/FOTOS/";
+        caminhoPopup = "images/tela-galeria/FOTOS/Chaincorp_Vila_Prudente_Living_04_Duplex_2_HR.jpg";
         break;
       case "cinema":
         caminhoPopup = "images/tela-projeto/FOTOS/Chaincorp_Vila_Prudente_Cine_Open_HR.jpg";
@@ -426,5 +426,3 @@ iconeButtons.forEach(btn => {
     }
   });
 });
-
-
