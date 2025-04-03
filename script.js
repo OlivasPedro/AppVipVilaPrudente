@@ -401,16 +401,16 @@ iconeButtons.forEach(btn => {
         caminhoPopup = "images/tela-galeria/FOTOS/Chaincorp_Vila_Prudente_Living_04_Duplex_2_HR.jpg";
         break;
       case "cinema":
-        caminhoPopup = "images/tela-projeto/FOTOS/Chaincorp_Vila_Prudente_Cine_Open_HR.jpg";
+        caminhoPopup = "images/tela-projeto/diferenciais/FOTOS/Chaincorp_Vila_Prudente_Cine_Open_HR.jpg";
         break;
       case "coworking":
-        caminhoPopup = "images/tela-projeto/FOTOS/Chaincorp_Vila_Prudente_Coworking_HR.jpg";
+        caminhoPopup = "images/tela-projeto/diferenciais/FOTOS/Chaincorp_Vila_Prudente_Coworking_HR.jpg";
         break;
       case "game-pub":
-        caminhoPopup = "images/tela-projeto/FOTOS/Chaincorp_Vila_Prudente_Game_Pub_HR.jpg";
+        caminhoPopup = "images/tela-projeto/diferenciais/FOTOS/Chaincorp_Vila_Prudente_Game_Pub_HR.jpg";
         break;
       case "mercadinho":
-        caminhoPopup = "images/tela-projeto/FOTOS/Chaincorp_Vila_Prudente_Mercadinho_HR.jpg";
+        caminhoPopup = "images/tela-projeto/diferenciais/FOTOS/Chaincorp_Vila_Prudente_Mercadinho_HR.jpg";
         break;
       default:
         caminhoPopup = ""; // fallback
@@ -426,3 +426,47 @@ iconeButtons.forEach(btn => {
     }
   });
 });
+
+const botoes = document.querySelectorAll('.botao-projeto');
+const todasAsTelas = document.querySelectorAll('section[id^="projeto-"]');
+const fadeDuration = 1000; // duração do fade-in em milissegundos
+
+botoes.forEach(botao => {
+  botao.addEventListener('click', () => {
+    const idBotao = botao.id;
+    if (!idBotao) return;
+
+    const nomeTela = idBotao
+      .replace(/^btn/, '')
+      .replace(/([a-z])([A-Z])/g, '$1-$2')
+      .toLowerCase();
+
+    const idTela = `projeto-${nomeTela}`;
+    const novaTela = document.getElementById(idTela);
+
+    if (!novaTela) {
+      console.error(`Tela com ID "${idTela}" não encontrada.`);
+      return;
+    }
+
+    // Oculta todas as telas imediatamente, sem animação de saída
+    todasAsTelas.forEach(tela => {
+      tela.style.display = 'none';
+      tela.classList.remove('ativo');
+    });
+
+    // Exibe a nova tela com fade in
+    novaTela.style.display = 'block';
+    novaTela.style.transform = 'none';
+    novaTela.style.animation = 'none'; // limpa qualquer animação antiga
+    //novaTela.style.animation = `fadeIn ${fadeDuration}ms ease forwards`;
+    novaTela.classList.add('ativo');
+
+    // Atualiza o botão ativo
+    botoes.forEach(b => b.classList.remove('ativo'));
+    botao.classList.add('ativo');
+  });
+});
+
+
+
