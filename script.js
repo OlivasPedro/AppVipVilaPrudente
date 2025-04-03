@@ -239,17 +239,27 @@ btnFecharVideo?.addEventListener("click", () => {
 
   
 const btnProjeto = document.getElementById("btnProjeto");
-const projetoTela = document.getElementById("projeto");
+const projetoDiferenciaisTela = document.getElementById("projeto-diferenciais");
 
 btnProjeto.addEventListener("click", () => {
   menuTela.style.animation = "slideOut 0.8s forwards";
 
   setTimeout(() => {
     menuTela.style.display = "none";
-    projetoTela.style.display = "block";
-    projetoTela.classList.add("ativo");
+    
+    // Reseta a posição para iniciar fora da tela à direita
+    projetoDiferenciaisTela.style.transform = "translateX(100%)";
+    projetoDiferenciaisTela.style.display = "block";
+    
+    // Aplica duas animações: fadeIn rápido e slideInRight para a entrada
+    projetoDiferenciaisTela.style.animation = "fadeIn 0.2s ease-out, slideIn 0.8s forwards";
+    
+    projetoDiferenciaisTela.classList.add("ativo");
   }, 500);
 });
+
+
+
 
 // ========== SWIPE NA GALERIA ==========
 let startX = 0;
@@ -359,3 +369,62 @@ imagemPrincipal.addEventListener("mousedown", (e) => {
   document.addEventListener("mousemove", onMouseMove);
   document.addEventListener("mouseup", onMouseUp);
 });
+
+const btnFecharProjetoDiferenciais = document.getElementById("btnFecharProjetoDiferenciais");
+
+btnFecharProjetoDiferenciais.addEventListener("click", function () {
+  // Aplica animação de saída (slide para a esquerda)
+  projetoDiferenciaisTela.style.animation = "slideOutLeft 0.5s forwards";
+  
+  setTimeout(function () {
+    // Oculta a tela do projeto-diferenciais e reseta o estado
+    projetoDiferenciaisTela.style.display = "none";
+    projetoDiferenciaisTela.style.animation = "";
+    projetoDiferenciaisTela.classList.remove("ativo");
+    
+    // Retorna ao menu com animação de entrada da direita
+    menuTela.style.display = "block";
+    menuTela.style.animation = "slideInRight 0.5s forwards";
+  }, 500);
+});
+
+const iconeButtons = document.querySelectorAll('.icone-btn');
+
+iconeButtons.forEach(btn => {
+  btn.addEventListener('click', () => {
+    const nome = btn.querySelector("img").alt;
+
+    let caminhoPopup;
+
+    switch (nome) {
+      case "pe-direito":
+        caminhoPopup = "images/tela-projeto/diferenciais/FOTOS/";
+        break;
+      case "cinema":
+        caminhoPopup = "images/tela-projeto/FOTOS/Chaincorp_Vila_Prudente_Cine_Open_HR.jpg";
+        break;
+      case "coworking":
+        caminhoPopup = "images/tela-projeto/FOTOS/Chaincorp_Vila_Prudente_Coworking_HR.jpg";
+        break;
+      case "game-pub":
+        caminhoPopup = "images/tela-projeto/FOTOS/Chaincorp_Vila_Prudente_Game_Pub_HR.jpg";
+        break;
+      case "mercadinho":
+        caminhoPopup = "images/tela-projeto/FOTOS/Chaincorp_Vila_Prudente_Mercadinho_HR.jpg";
+        break;
+      default:
+        caminhoPopup = ""; // fallback
+    }
+
+    // Abre o popup se houver imagem
+    if (caminhoPopup) {
+      imagemZoom.src = caminhoPopup;
+      popupZoom.style.display = "flex";
+      setTimeout(() => {
+        popupOverlay.style.opacity = 1;
+      }, 10);
+    }
+  });
+});
+
+
