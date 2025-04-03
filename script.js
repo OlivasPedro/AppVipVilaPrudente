@@ -468,5 +468,37 @@ botoes.forEach(botao => {
   });
 });
 
+const btnFecharProjetoFichaTecnica = document.getElementById("btnFecharProjetoFichaTecnica");
+const projetoFichaTecnicaTela = document.getElementById("projeto-ficha-tecnica");
+
+btnFecharProjetoFichaTecnica.addEventListener("click", function () {
+  // Aplica animação de saída (slide para a esquerda)
+  projetoFichaTecnicaTela.style.animation = "slideOutLeft 0.5s forwards";
+  
+  setTimeout(function () {
+    // Oculta a tela do projeto-diferenciais e reseta o estado
+    projetoFichaTecnicaTela.style.display = "none";
+    projetoFichaTecnicaTela.style.animation = "";
+    projetoFichaTecnicaTela.classList.remove("ativo");
+    
+    // Retorna ao menu com animação de entrada da direita
+    menuTela.style.display = "block";
+    menuTela.style.animation = "slideInRight 0.5s forwards";
+  }, 500);
+});
+
+const cabecalhoImagem = document.getElementById('cabecalhoImagem');
+const textoImagem = document.getElementById('textoImagem');
+const botoesCabecalho = document.querySelectorAll('.cabecalho-area');
+
+botoesCabecalho.forEach(botao => {
+  botao.addEventListener('click', () => {
+    const tipo = botao.dataset.cabecalho;
+
+    cabecalhoImagem.src = `images/tela-projeto/ficha-tecnica/${tipo}/cabecalho.png`;
+    textoImagem.src = `images/tela-projeto/ficha-tecnica/${tipo}/texto.png`;
+  });
+});
+
 
 
