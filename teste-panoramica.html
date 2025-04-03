@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Tour 360° com Navegação Direcional</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/pannellum@2.5.6/build/pannellum.css">
+  <style>
+    body {
+      margin: 0;
+      background: #000;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+
+    #panorama {
+      width: 500px;
+      height: 500px;
+      background: #000;
+    }
+
+    .controles {
+      margin-top: 15px;
+    }
+
+    .controles button {
+      padding: 10px 20px;
+      margin: 0 5px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+
+  <div id="panorama"></div>
+
+  <div class="controles">
+    <button onclick="irPara('norte')">Norte</button>
+    <button onclick="irPara('leste')">Leste</button>
+    <button onclick="irPara('sul')">Sul</button>
+    <button onclick="irPara('oeste')">Oeste</button>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/pannellum@2.5.6/build/pannellum.js"></script>
+  <script>
+    const viewer = pannellum.viewer('panorama', {
+      type: 'equirectangular',
+      panorama: 'https://pannellum.org/images/cerro-toco-0.jpg',
+      autoLoad: true,
+      showControls: false,
+      compass: false,
+    });
+
+    function irPara(direcao) {
+      let yaw = 0;
+
+      switch (direcao) {
+        case 'norte': yaw = 0; break;
+        case 'leste': yaw = 90; break;
+        case 'sul': yaw = 180; break;
+        case 'oeste': yaw = 270; break;
+      }
+
+      viewer.lookAt(0, yaw, 1000); // (pitch, yaw, tempo de transição em ms)
+    }
+  </script>
+
+</body>
+</html>

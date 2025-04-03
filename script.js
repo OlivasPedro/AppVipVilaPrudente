@@ -500,5 +500,63 @@ botoesCabecalho.forEach(botao => {
   });
 });
 
+let scrollLeft;
+
+const panoramaScroll = document.querySelector(".panorama-scroll");
+
+panoramaScroll.addEventListener("mousedown", (e) => {
+  isDragging = true;
+  startX = e.pageX - panoramaScroll.offsetLeft;
+  scrollLeft = panoramaScroll.scrollLeft;
+  panoramaScroll.style.cursor = "grabbing";
+});
+
+panoramaScroll.addEventListener("mouseleave", () => {
+  isDragging = false;
+  panoramaScroll.style.cursor = "grab";
+});
+
+panoramaScroll.addEventListener("mouseup", () => {
+  isDragging = false;
+  panoramaScroll.style.cursor = "grab";
+});
+
+panoramaScroll.addEventListener("mousemove", (e) => {
+  if (!isDragging) return;
+  const x = e.pageX - panoramaScroll.offsetLeft;
+  const walk = (x - startX) * 2; // Velocidade do arraste
+  panoramaScroll.scrollLeft = scrollLeft - walk;
+});
 
 
+function abrirVistaPanoramica() {
+  const projetoVistasTela = document.getElementById("projeto-vistas");
+  const panoramaScroll = document.querySelector(".panorama-scroll");
+  const panoramaImagem = panoramaScroll.querySelector("img");
+
+  projetoVistasTela.style.display = "block";
+
+  setTimeout(() => {
+    projetoVistasTela.classList.add("ativo");
+
+    panoramaImagem.onload = () => {
+      panoramaScroll.scrollLeft = panoramaImagem.scrollWidth * 0.3;
+    };
+
+    // Se já estiver carregada
+    if (panoramaImagem.complete) {
+      panoramaScroll.scrollLeft = panoramaImagem.scrollWidth * 0.3;
+    }
+  }, 10);
+}
+
+
+document.addEventListener("DOMContentLoaded", function () {
+  pannellum.viewer('panorama360', {
+    type: 'equirectangular',
+    panorama: 'images/tela-projeto/vistas/vistas/1.jpg',
+    autoLoad: true,
+    showControls: false,
+    compass: false
+  });
+});
