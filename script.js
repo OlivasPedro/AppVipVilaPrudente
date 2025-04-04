@@ -461,6 +461,22 @@ botoes.forEach(botao => {
     novaTela.style.animation = 'none';
     novaTela.classList.add('ativo');
 
+    const informacoes = novaTela.querySelector('.informacoes-container');
+
+  if (informacoes) {
+    informacoes.classList.remove('visivel'); // remove caso esteja vindo de outra tela
+    void informacoes.offsetWidth; // força reflow para reiniciar a transição
+    informacoes.classList.add('visivel');
+  }
+
+  const vistas = novaTela.querySelector('.projeto-vistas'); // ou novaTela diretamente, se ela for a tela
+
+  if (idTela === 'projeto-vistas') {
+    novaTela.classList.remove('ativo');
+    void novaTela.offsetWidth;
+    novaTela.classList.add('ativo');
+  }
+  
     // Atualiza o botão ativo
     botoes.forEach(b => b.classList.remove('ativo'));
     botao.classList.add('ativo');
@@ -742,7 +758,7 @@ botoesLocalizacao.forEach(botao => {
     novaTela.classList.add("ativo");
 
     // === Animação dos cards do GUIA ===
-    if (idTela === "localizacao-guia") {
+    if (idTela == "localizacao-guia") {
       // Cancela animações anteriores
       timeoutsGuia.forEach(timeout => clearTimeout(timeout));
       timeoutsGuia = [];
@@ -763,6 +779,19 @@ botoesLocalizacao.forEach(botao => {
       });
     }
 
+    if (idTela == "localizacao-mapa") {
+      
+      const mapaBase = document.getElementById("mapaBase");
+
+      // Configurações
+      const zoomInicial = 1; // quanto você quer dar de zoom
+      const offsetX = 0; // ajuste horizontal (px)
+      const offsetY = 0; // ajuste vertical (px)
+
+      mapaBase.style.transform = `scale(${zoomInicial}) translate(${offsetX}px, ${offsetY}px)`;
+
+      centralizarImagem();
+    }
     // Atualiza botões
     botoesLocalizacao.forEach(b => b.classList.remove("botao-localizacao-selecionado"));
     botao.classList.add("botao-localizacao-selecionado");
@@ -856,3 +885,166 @@ cards.forEach(card => {
   // Define estado inicial do card
   setCardBottom(closedPos);
 });
+
+
+//
+
+//
+
+//
+
+
+const mapaContainer = document.getElementById("mapaZoomContainer");
+const mapaBase = document.getElementById("mapaBase");
+
+let scale = 1;
+let translateX = 0;
+let translateY = 0;
+let startY = 0;
+let isDraggingMap = false;
+
+function clamp(val, min, max) {
+  return Math.max(min, Math.min(val, max));
+}
+
+function updateTransform() {
+  // Aplicamos primeiro o translate e depois o scale.
+  mapaContainer.style.transform = `translate(${translateX}px, ${translateY}px) scale(${scale})`;
+}
+
+function limitPan() {
+  const wrapper = document.querySelector(".localizacao-mapa-wrapper");
+  const wrapperWidth = wrapper.offsetWidth;
+  const wrapperHeight = wrapper.offsetHeight;
+
+  // tamanho base da imagem (sem scale), já que ela tem width 100%
+  const baseWidth = mapaBase.offsetWidth;
+  const baseHeight = mapaBase.offsetHeight;
+
+  const scaledWidth = baseWidth * scale;
+  const scaledHeight = baseHeight * scale;
+
+  const minTranslateX = Math.min(0, wrapperWidth - scaledWidth);
+  const maxTranslateX = 0;
+
+  const minTranslateY = Math.min(0, wrapperHeight - scaledHeight);
+  const maxTranslateY = 0;
+
+  translateX = clamp(translateX, minTranslateX, maxTranslateX);
+  translateY = clamp(translateY, minTranslateY, maxTranslateY);
+}
+
+
+function centralizarImagem() {
+  const wrapper = document.querySelector(".localizacao-mapa-wrapper");
+
+  const wrapperWidth = wrapper.offsetWidth;
+  const wrapperHeight = wrapper.offsetHeight;
+
+  const baseWidth = mapaBase.offsetWidth;
+  const baseHeight = mapaBase.offsetHeight;
+
+  const scaledWidth = baseWidth * scale;
+  const scaledHeight = baseHeight * scale;
+
+  translateX = (wrapperWidth - scaledWidth) / 2;
+  translateY = (wrapperHeight - scaledHeight) / 2;
+
+  limitPan();
+  updateTransform();
+}
+
+
+
+
+// ZOOM COM RODA DO MOUSE (baseado no ponteiro)
+mapaContainer.addEventListener("wheel", function (e) {
+  e.preventDefault();
+  
+  const rect = mapaContainer.getBoundingClientRect();
+  const offsetX = e.clientX - rect.left;
+  const offsetY = e.clientY - rect.top;
+  
+  const prevScale = scale;
+  // Ajuste a sensibilidade do zoom conforme necessário
+  scale += e.deltaY * -0.0015;
+  scale = clamp(scale, 1, 3);
+  
+  // Ajusta o translate para que o ponto do mouse permaneça fixo durante o zoom.
+  const zoomFactor = scale / prevScale;
+  translateX = (translateX - offsetX) * zoomFactor + offsetX;
+  translateY = (translateY - offsetY) * zoomFactor + offsetY;
+  
+  limitPan();
+  updateTransform();
+}, { passive: false });
+
+// ARRASTE COM MOUSE
+mapaContainer.addEventListener("mousedown", (e) => {
+  e.preventDefault();
+  isDraggingMap = true;
+  startX = e.clientX;
+  startY = e.clientY;
+});
+
+document.addEventListener("mousemove", (e) => {
+  if (!isDraggingMap) return;
+  const dx = e.clientX - startX;
+  const dy = e.clientY - startY;
+  startX = e.clientX;
+  startY = e.clientY;
+  
+  translateX += dx;
+  translateY += dy;
+  limitPan();
+  updateTransform();
+});
+
+document.addEventListener("mouseup", () => {
+  isDraggingMap = false;
+});
+
+// TOUCH / PINCH ZOOM
+let pinchStartDistance = 0;
+let lastScale = scale;
+
+mapaContainer.addEventListener("touchstart", (e) => {
+  if (e.touches.length === 2) {
+    pinchStartDistance = getDistance(e.touches[0], e.touches[1]);
+    lastScale = scale;
+  } else if (e.touches.length === 1) {
+    isDraggingMap = true;
+    startX = e.touches[0].clientX;
+    startY = e.touches[0].clientY;
+  }
+});
+
+mapaContainer.addEventListener("touchmove", (e) => {
+  if (e.touches.length === 2) {
+    e.preventDefault();
+    const newDist = getDistance(e.touches[0], e.touches[1]);
+    scale = clamp(lastScale * (newDist / pinchStartDistance), 1, 3);
+    limitPan();
+    updateTransform();
+  } else if (e.touches.length === 1 && isDraggingMap) {
+    const dx = e.touches[0].clientX - startX;
+    const dy = e.touches[0].clientY - startY;
+    startX = e.touches[0].clientX;
+    startY = e.touches[0].clientY;
+    
+    translateX += dx;
+    translateY += dy;
+    limitPan();
+    updateTransform();
+  }
+});
+
+mapaContainer.addEventListener("touchend", () => {
+  isDraggingMap = false;
+});
+
+function getDistance(touch1, touch2) {
+  const dx = touch1.clientX - touch2.clientX;
+  const dy = touch1.clientY - touch2.clientY;
+  return Math.sqrt(dx * dx + dy * dy);
+}

@@ -444,7 +444,7 @@ body {
 .foto-principal {
     height: 100%;
     width: 88vw;
-    object-fit: cover;
+    object-fit: fill;
     display: block;
 }
 
@@ -1001,6 +1001,13 @@ body {
   padding-top: 15vh; /* espaço reservado para o cabeçalho fixo */
   z-index: 3;
   left: 100vw;
+  opacity: 0;
+  transition: opacity 0.6s ease;
+}
+
+.informacoes-container.visivel {
+  opacity: 1;
+   /* ou o valor desejado, se você quer animar a entrada */
 }
 
 .cabecalho-wrapper {
@@ -1338,21 +1345,87 @@ body {
   opacity: 1;
 }
 
+
 .localizacao-mapa-wrapper {
   position: absolute;
   top: 50%;
-  left: 50%;
-  width: 90vw;
+  left: 7vw;
+  width: 86vw;
   height: 90vh;
-  transform: translate(-50%, -50%);
-  z-index: 2;
+  transform: translateY(-50%);
+  overflow: hidden;
 }
 
-.imagem-mapa {
+.mapa-zoom-container {
+  position: relative; /* <- Essencial */
   width: 100%;
-  height: 100%;
-  object-fit: contain;
+  height: auto;
+  transform-origin: 0 0;
+  transform: scale(1); /* atualizado via JS */
+  overflow: hidden;
 }
+
+.mapa-zoom-container.grabbing {
+  cursor: grabbing;
+}
+
+.mapa-base {
+  display: block;
+  width: 100%;
+  height: auto;
+  transition: opacity 0.8s ease; /* controle do fade */
+}
+
+.raio, .pin-mapa {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+  z-index: 3;
+}
+
+.raio-1 {
+  top: 54%;
+  left: 48.5%;
+  width: 30%;
+
+}
+
+.raio-2 {
+  top: 54%;
+  left: 48.5%;
+  width: 45%;
+
+}
+
+.raio-3 {
+  top: 54%;
+  left: 48.5%;
+  width: 60%;
+
+}
+
+.raio-4 {
+  top: 54%;
+  left: 48.5%;
+  width: 75%;
+
+}
+
+.pin-mapa {
+  top: 54%;
+  left: 48.5%;
+  width: 6%; /* ou 5% se quiser responsivo com zoom */
+}
+
+.btn-fechar-localizacao-mapa {
+  position: absolute;
+  top: 7vh;
+  right: 8vw;
+  width: 3vw;
+  cursor: pointer;
+  z-index: 3;
+}
+
 
 .localizacao-guia {
   position: absolute;
@@ -1426,3 +1499,5 @@ body {
   z-index: 10;
   pointer-events: none; /* evita clique acidental na imagem */
 }
+
+

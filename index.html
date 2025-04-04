@@ -215,11 +215,11 @@
         <img src="images/tela-projeto/ficha-tecnica/foto.png" alt="Prédio" class="predio-imagem">
       </div>
 
+
+
       <div class="informacoes-container">
         <!-- Botão de fechar -->
-        <button id="btnFecharProjetoFichaTecnica" class="projeto-ficha-tecnica-fechar">
-          <img src="images/x.png" alt="Fechar">
-        </button>
+
         <!-- Cabeçalho com áreas clicáveis -->
         <div class="cabecalho-wrapper">
           <img src="images/tela-projeto/ficha-tecnica/empreendimento/cabecalho.png" 
@@ -243,7 +243,9 @@
 
     <!-- Coluna direita: Informações (cabeçalho, texto, etc.) -->
     <div class="lado-direito">
-      
+      <button id="btnFecharProjetoFichaTecnica" class="projeto-ficha-tecnica-fechar">
+        <img src="images/x.png" alt="Fechar">
+      </button>
     </div>
   </div>
 </section>
@@ -310,10 +312,9 @@
 <section id="localizacao-mapa" class="localizacao-mapa">
   <img src="images/tela-localizacao/fundo.png" alt="Fundo Localização" class="localizacao-fundo">
 
-  <!-- BARRA LATERAL LOCALIZAÇÃO -->
+  <!-- BARRA LATERAL -->
   <div class="barra-lateral-localizacao">
     <img src="images/tela-localizacao/panoramica/botoes/hexagono.png" alt="Barra Lateral" class="barra-localizacao-imagem">
-
     <div class="botoes-hexagonais-localizacao">
       <img src="images/tela-localizacao/mapa/botoes/panoramica.png" alt="Panorâmica" class="botao-localizacao" id="btnPanoramicaLocalizacao">
       <img src="images/tela-localizacao/mapa/botoes/mapa.png" alt="Mapa" class="botao-localizacao-selecionado" id="btnMapaLocalizacao">
@@ -321,12 +322,25 @@
     </div>
   </div>
 
-  <!-- Mapa no centro -->
   <div class="localizacao-mapa-wrapper">
-    <img src="images/tela-localizacao/mapa/mapa.png" alt="Mapa Estático" class="imagem-mapa">
-    <img src="images/x.png" alt="Fechar" class="btn-fechar-localizacao" id="btnFecharLocalizacaoMapa">
+    <div class="mapa-zoom-container" id="mapaZoomContainer">
+      <img src="images/tela-localizacao/mapa/mapa.png" class="mapa-base" id="mapaBase">
+  
+      <img src="images/tela-localizacao/mapa/1km.png" class="raio raio-1">
+      <img src="images/tela-localizacao/mapa/2km.png" class="raio raio-2">
+      <img src="images/tela-localizacao/mapa/3km.png" class="raio raio-3">
+      <img src="images/tela-localizacao/mapa/4km.png" class="raio raio-4">
+  
+      <img src="images/tela-localizacao/mapa/pin.png" class="pin-mapa">
+    </div>
   </div>
+  
+
+
+  <!-- Botão de fechar -->
+  <img src="images/x.png" alt="Fechar" class="btn-fechar-localizacao-mapa" id="btnFecharLocalizacaoMapa">
 </section>
+
 
 <section id="localizacao-guia" class="localizacao-guia">
   <!-- Imagem de fundo -->
