@@ -614,3 +614,60 @@ function atualizarDirecaoMapa() {
 
 // Atualiza constantemente a direção (a cada 500ms)
 setInterval(atualizarDirecaoMapa, 500);
+
+const btnLocalizacao = document.getElementById("btnLocalizacao");
+const localizacaoTela = document.getElementById("localizacao-panoramica");
+const btnFecharLocalizacao = document.getElementById("btnFecharLocalizacao");
+
+let viewerLocalizacao = null;
+
+btnLocalizacao.addEventListener("click", () => {
+  menuTela.style.animation = "slideOut 0.8s forwards";
+
+  setTimeout(() => {
+    menuTela.style.display = "none";
+    localizacaoTela.style.display = "block";
+    localizacaoTela.style.animation = "slideIn 0.8s forwards";
+    localizacaoTela.classList.add("ativo");
+
+    // Inicializa panorâmica
+    if (!viewerLocalizacao) {
+      viewerLocalizacao = pannellum.viewer('panoramaLocalizacao', {
+        type: "equirectangular",
+        panorama: "panoramica-lixo.jpg",
+        autoLoad: true,
+        showControls: false,
+        compass: false,
+        yaw: 90,
+        hfov: 110
+      });
+    } else {
+      viewerLocalizacao.resize();
+    }
+  }, 500);
+});
+
+btnFecharLocalizacao.addEventListener("click", () => {
+  localizacaoTela.style.animation = "slideOutLeft 0.5s forwards";
+
+  setTimeout(() => {
+    localizacaoTela.style.display = "none";
+    localizacaoTela.classList.remove("ativo");
+    menuTela.style.display = "block";
+    menuTela.style.animation = "slideInRight 0.5s forwards";
+  }, 500);
+});
+
+const botoesLocalizacao = document.querySelectorAll('.botao-localizacao');
+
+botoesLocalizacao.forEach(botao => {
+  botao.addEventListener('click', () => {
+    // Remove a seleção de todos os botões
+    botoesLocalizacao.forEach(b => {
+      b.classList.remove('botao-localizacao-selecionado');
+    });
+
+    // Adiciona a classe apenas no botão clicado
+    botao.classList.add('botao-localizacao-selecionado');
+  });
+});

@@ -1205,3 +1205,111 @@ body {
   height: auto;
   z-index: 4;       /* acima do panorama, abaixo dos botões se necessário */
 }
+
+.localizacao-panoramica {
+  display: none;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  z-index: 10;
+  opacity: 0;
+  transition: opacity 0.8s ease;
+}
+
+.localizacao-panoramica.ativo {
+  display: block;
+  opacity: 1;
+}
+
+.localizacao-fundo {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: 0;
+}
+
+.localizacao-panorama-wrapper {
+  position: absolute;
+  top: 50%;
+  left: 7vw; /* deixa espaço pra barra lateral (ajuste conforme necessário) */
+  width: 86vw; /* diminui a largura pra compensar o deslocamento */
+  height: 90vh;
+  transform: translateY(-50%); /* remove o -50% no X, só mantém o Y */
+  z-index: 2;
+}
+
+
+#panoramaLocalizacao {
+  width: 100%;
+  height: 100%;
+}
+
+.btn-fechar-localizacao {
+  position: absolute;
+  top: 6vh;
+  right: -1.5vw;
+  width: 3vw;
+  cursor: pointer;
+  z-index: 3;
+}
+
+.barra-lateral-localizacao {
+  position: absolute;
+  top: 50%;
+  left: -2vw;
+  transform: translateY(-50%);
+  width: 9vw;
+  height: 65vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+  z-index: 10;
+}
+
+.barra-localizacao-imagem {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: fill;
+  z-index: 1;
+  pointer-events: none;
+}
+
+.botoes-hexagonais-localizacao {
+  position: absolute;
+  top: 50%;
+  left: 8.8vw;
+  transform: translate(-50%, -50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2.5vh;
+  z-index: 100;
+  pointer-events: auto;
+  width: 80%;
+}
+
+.botao-localizacao {
+  width: auto;
+  height: 12.3vh; 
+  transition: transform 0.2s ease;
+  cursor: pointer;
+}
+
+.botao-localizacao:active {
+  transform: scale(0.95);
+}
+
+.botao-localizacao-selecionado {
+  transform: scale(1.15);
+  transition: transform 0.2s ease;
+  z-index: 10;
+}
