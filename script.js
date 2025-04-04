@@ -202,7 +202,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const fecharPopupVideo = document.getElementById("fecharPopupVideo");
     const youtubeFrame = document.getElementById("youtubeFrame");
   
-    const youtubeLink = "https://www.youtube.com/embed/TW9d8vYrVFQ";
+    const youtubeLink = "https://www.youtube.com/embed/ScMzIvxBSi4";
   
     if (btnFilme && popupVideo && fecharPopupVideo && youtubeFrame) {
       btnFilme.addEventListener("click", () => {
@@ -429,7 +429,9 @@ iconeButtons.forEach(btn => {
 
 const botoes = document.querySelectorAll('.botao-projeto');
 const todasAsTelas = document.querySelectorAll('section[id^="projeto-"]');
-const fadeDuration = 1000; // duração do fade-in em milissegundos
+const fadeDuration = 1000;
+
+let viewerPanorama = null;
 
 botoes.forEach(botao => {
   botao.addEventListener('click', () => {
@@ -449,24 +451,43 @@ botoes.forEach(botao => {
       return;
     }
 
-    // Oculta todas as telas imediatamente, sem animação de saída
+    // Oculta todas as telas
     todasAsTelas.forEach(tela => {
       tela.style.display = 'none';
       tela.classList.remove('ativo');
     });
 
-    // Exibe a nova tela com fade in
+    // Exibe a nova tela
     novaTela.style.display = 'block';
     novaTela.style.transform = 'none';
-    novaTela.style.animation = 'none'; // limpa qualquer animação antiga
-    //novaTela.style.animation = `fadeIn ${fadeDuration}ms ease forwards`;
+    novaTela.style.animation = 'none';
     novaTela.classList.add('ativo');
 
     // Atualiza o botão ativo
     botoes.forEach(b => b.classList.remove('ativo'));
     botao.classList.add('ativo');
+
+    // Se a tela for a de vistas, inicializa o panorama com leve atraso
+    if (idTela === 'projeto-vistas') {
+      setTimeout(() => {
+        if (!viewerPanorama) {
+          viewerPanorama = pannellum.viewer('panorama360', {
+            type: 'equirectangular',
+            panorama: 'images/tela-projeto/vistas/vistas/1.jpg',
+            autoLoad: true,
+            showControls: false,
+            compass: false,
+            hfov: 120,
+            yaw: 90
+          });
+        } else {
+          viewerPanorama.resize(); // caso a div mude de tamanho ou reabra
+        }
+      }, 50); // pequeno delay para garantir que o layout foi renderizado
+    }
   });
 });
+
 
 const btnFecharProjetoFichaTecnica = document.getElementById("btnFecharProjetoFichaTecnica");
 const projetoFichaTecnicaTela = document.getElementById("projeto-ficha-tecnica");
@@ -500,63 +521,96 @@ botoesCabecalho.forEach(botao => {
   });
 });
 
-let scrollLeft;
 
-const panoramaScroll = document.querySelector(".panorama-scroll");
+const btnFecharVistas = document.getElementById("btnFecharVistas");
+const projetoVistasTela = document.getElementById("projeto-vistas");
 
-panoramaScroll.addEventListener("mousedown", (e) => {
-  isDragging = true;
-  startX = e.pageX - panoramaScroll.offsetLeft;
-  scrollLeft = panoramaScroll.scrollLeft;
-  panoramaScroll.style.cursor = "grabbing";
-});
-
-panoramaScroll.addEventListener("mouseleave", () => {
-  isDragging = false;
-  panoramaScroll.style.cursor = "grab";
-});
-
-panoramaScroll.addEventListener("mouseup", () => {
-  isDragging = false;
-  panoramaScroll.style.cursor = "grab";
-});
-
-panoramaScroll.addEventListener("mousemove", (e) => {
-  if (!isDragging) return;
-  const x = e.pageX - panoramaScroll.offsetLeft;
-  const walk = (x - startX) * 2; // Velocidade do arraste
-  panoramaScroll.scrollLeft = scrollLeft - walk;
-});
-
-
-function abrirVistaPanoramica() {
-  const projetoVistasTela = document.getElementById("projeto-vistas");
-  const panoramaScroll = document.querySelector(".panorama-scroll");
-  const panoramaImagem = panoramaScroll.querySelector("img");
-
-  projetoVistasTela.style.display = "block";
+btnFecharVistas.addEventListener("click", () => {
+  // Aplica a animação de saída (slide para a esquerda)
+  projetoVistasTela.style.animation = "slideOutLeft 0.5s forwards";
 
   setTimeout(() => {
-    projetoVistasTela.classList.add("ativo");
+    // Oculta a tela de Vistas e reseta o estado
+    projetoVistasTela.style.display = "none";
+    projetoVistasTela.style.animation = "";
+    projetoVistasTela.classList.remove("ativo");
 
-    panoramaImagem.onload = () => {
-      panoramaScroll.scrollLeft = panoramaImagem.scrollWidth * 0.3;
-    };
+    // Exibe o menu com animação de entrada
+    menuTela.style.display = "block";
+    menuTela.style.animation = "slideInRight 0.5s forwards";
+  }, 500);
+});
 
-    // Se já estiver carregada
-    if (panoramaImagem.complete) {
-      panoramaScroll.scrollLeft = panoramaImagem.scrollWidth * 0.3;
+const botoesVistas = document.querySelectorAll('.botao-vistas');
+botoesVistas.forEach(botao => {
+  botao.addEventListener('click', () => {
+    const id = botao.getAttribute('data-id');
+    const novaImagem = `images/tela-projeto/vistas/vistas/${id}.jpg`;
+
+    if (viewerPanorama && typeof viewerPanorama.setPanorama === 'function') {
+      viewerPanorama.setPanorama(novaImagem);
+    } else {
+      // Caso o viewer ainda não exista (fallback)
+      viewerPanorama = pannellum.viewer('panorama360', {
+        type: 'equirectangular',
+        panorama: novaImagem,
+        autoLoad: true,
+        showControls: false,
+        compass: false,
+        hfov: 120,
+        yaw: 90
+      });
     }
-  }, 10);
-}
-
-
-document.addEventListener("DOMContentLoaded", function () {
-  pannellum.viewer('panorama360', {
-    type: 'equirectangular',
-    panorama: 'images/tela-projeto/vistas/vistas/1.jpg',
-    autoLoad: true,
-    showControls: false,
-    compass: false
   });
 });
+
+botoesVistas.forEach(botao => {
+  botao.addEventListener('click', () => {
+    const id = botao.getAttribute('data-id');
+
+    // Resetar todos os botões
+    botoesVistas.forEach(b => {
+      const bid = b.getAttribute('data-id');
+      b.src = `images/tela-projeto/vistas/botoes/normais/${String(bid).padStart(2, '0')}.png`;
+      b.classList.remove('botao-vistas-selecionado');
+    });
+
+    // Atualizar botão selecionado
+    botao.src = `images/tela-projeto/vistas/botoes/selecionados/${String(id).padStart(2, '0')}.png`;
+    botao.classList.add('botao-vistas-selecionado');
+  });
+});
+
+// Seleciona o botão 1 como padrão ao carregar
+window.addEventListener('DOMContentLoaded', () => {
+  const botaoInicial = document.querySelector('.botao-vistas[data-id="1"]');
+  if (botaoInicial) {
+    botaoInicial.click(); // Simula o clique no botão 1
+  }
+});
+
+function atualizarDirecaoMapa() {
+  if (!viewerPanorama) return;
+
+  const yaw = viewerPanorama.getYaw();
+  const angulo = (yaw + 360) % 360;
+
+  let direcao = "";
+
+  if (angulo >= 45 && angulo < 135) {
+    direcao = "norte";
+  } else if (angulo >= 135 && angulo < 225) {
+    direcao = "leste";
+  } else if (angulo >= 225 && angulo < 315) {
+    direcao = "sul";
+  } else {
+    direcao = "oeste";
+  }
+
+
+  const imgMapa = document.getElementById("mapaDirecoes");
+  imgMapa.src = `images/tela-projeto/vistas/lados/${direcao}.png`;
+}
+
+// Atualiza constantemente a direção (a cada 500ms)
+setInterval(atualizarDirecaoMapa, 500);
