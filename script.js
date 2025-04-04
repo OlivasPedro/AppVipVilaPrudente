@@ -300,8 +300,6 @@ imagemPrincipal.addEventListener("touchend", (e) => {
 
 
 let currentX = 0;
-
-
 function startDrag(x) {
     startX = x;
     currentX = x;
@@ -617,7 +615,11 @@ setInterval(atualizarDirecaoMapa, 500);
 
 const btnLocalizacao = document.getElementById("btnLocalizacao");
 const localizacaoTela = document.getElementById("localizacao-panoramica");
+const localizacaoMapaTela = document.getElementById("localizacao-mapa");
+const localizacaoGuiaTela = document.getElementById("localizacao-guia");
 const btnFecharLocalizacao = document.getElementById("btnFecharLocalizacao");
+const btnFecharLocalizacaoMapa = document.getElementById("btnFecharLocalizacaoMapa");
+const btnFecharLocalizacaoGuia = document.getElementById("btnFecharLocalizacaoGuia");
 
 let viewerLocalizacao = null;
 
@@ -658,6 +660,28 @@ btnFecharLocalizacao.addEventListener("click", () => {
   }, 500);
 });
 
+btnFecharLocalizacaoMapa.addEventListener("click", () => {
+  localizacaoMapaTela.style.animation = "slideOutLeft 0.5s forwards";
+
+  setTimeout(() => {
+    localizacaoMapaTela.style.display = "none";
+    localizacaoMapaTela.classList.remove("ativo");
+    menuTela.style.display = "block";
+    menuTela.style.animation = "slideInRight 0.5s forwards";
+  }, 500);
+});
+
+btnFecharLocalizacaoGuia.addEventListener("click", () => {
+  localizacaoGuiaTela.style.animation = "slideOutLeft 0.5s forwards";
+
+  setTimeout(() => {
+    localizacaoGuiaTela.style.display = "none";
+    localizacaoGuiaTela.classList.remove("ativo");
+    menuTela.style.display = "block";
+    menuTela.style.animation = "slideInRight 0.5s forwards";
+  }, 500);
+});
+
 const botoesLocalizacao = document.querySelectorAll('.botao-localizacao');
 
 botoesLocalizacao.forEach(botao => {
@@ -670,4 +694,165 @@ botoesLocalizacao.forEach(botao => {
     // Adiciona a classe apenas no botão clicado
     botao.classList.add('botao-localizacao-selecionado');
   });
+});
+
+const todasAsTelasLocalizacao = document.querySelectorAll('section[id^="localizacao-"]');
+let timeoutsGuia = []; // armazena os timeouts para cancelamento posterior
+
+botoesLocalizacao.forEach(botao => {
+  botao.addEventListener('click', () => {
+    const id = botao.id;
+
+    let idTela = "";
+
+    switch (id) {
+      case "btnPanoramicaLocalizacao":
+      case "btnPanoramicaLocalizacaoMapa":
+        idTela = "localizacao-panoramica";
+        break;
+      case "btnMapaLocalizacao":
+      case "btnMapaLocalizacaoMapa":
+        idTela = "localizacao-mapa";
+        break;
+      case "btnGuiaLocalizacao":
+      case "btnGuiaLocalizacaoMapa":
+        idTela = "localizacao-guia";
+        break;
+      default:
+        console.error("❌ ID de botão não reconhecido:", id);
+        return;
+    }
+
+    const novaTela = document.getElementById(idTela);
+    if (!novaTela) {
+      console.error(`❌ Tela com ID "${idTela}" não encontrada.`);
+      return;
+    }
+
+    // Oculta todas as telas
+    todasAsTelasLocalizacao.forEach(tela => {
+      tela.style.display = "none";
+      tela.classList.remove("ativo");
+    });
+
+    // Exibe a nova
+    novaTela.style.display = "block";
+    novaTela.style.transform = "none";
+    novaTela.style.animation = "none";
+    novaTela.classList.add("ativo");
+
+    // === Animação dos cards do GUIA ===
+    if (idTela === "localizacao-guia") {
+      // Cancela animações anteriores
+      timeoutsGuia.forEach(timeout => clearTimeout(timeout));
+      timeoutsGuia = [];
+
+      const cardsGuia = document.querySelectorAll('#localizacao-guia .card-arrastavel');
+
+      cardsGuia.forEach(card => {
+        card.style.bottom = '-25vh'; // posição inicial
+        card.classList.remove('visivel');
+        card.classList.remove('aberto');
+      });
+
+      cardsGuia.forEach((card, index) => {
+        const timeout = setTimeout(() => {
+          card.classList.add('visivel');
+        }, 600 * index); // controle da velocidade entre cards
+        timeoutsGuia.push(timeout);
+      });
+    }
+
+    // Atualiza botões
+    botoesLocalizacao.forEach(b => b.classList.remove("botao-localizacao-selecionado"));
+    botao.classList.add("botao-localizacao-selecionado");
+  });
+});
+
+
+/////////////
+
+const cards = document.querySelectorAll(".card-arrastavel");
+
+cards.forEach(card => {
+  const closedPos = -25;  // posição fechada (enterrado)
+  const openPos = -1;     // posição aberta
+  const threshold = 5;    // limiar para abrir/fechar
+  let initialBottom = closedPos;
+
+  let startY = 0;
+  let isDragging = false;
+
+  // Atualiza o bottom em vh
+  function setCardBottom(vh) {
+    card.style.bottom = `${vh}vh`;
+  }
+
+  // Converte px para vh
+  function pxToVH(px) {
+    return (px / window.innerHeight) * 100;
+  }
+
+  // --------- Mouse ---------
+  card.addEventListener("mousedown", (e) => {
+    e.preventDefault();
+    isDragging = true;
+    startY = e.clientY;
+    card.style.transition = "none";
+  });
+
+  document.addEventListener("mousemove", (e) => {
+    if (!isDragging) return;
+    const deltaPx = startY - e.clientY;
+    const deltaVH = pxToVH(deltaPx);
+    let newBottom = initialBottom + deltaVH;
+    newBottom = Math.min(openPos, Math.max(closedPos, newBottom));
+    setCardBottom(newBottom);
+  });
+
+  document.addEventListener("mouseup", () => {
+    if (!isDragging) return;
+    isDragging = false;
+    card.style.transition = "bottom 0.3s ease";
+    const currentBottom = parseFloat(card.style.bottom);
+    if (currentBottom > closedPos + threshold) {
+      setCardBottom(openPos);
+      initialBottom = openPos;
+    } else {
+      setCardBottom(closedPos);
+      initialBottom = closedPos;
+    }
+  });
+
+  // --------- Touch ---------
+  card.addEventListener("touchstart", (e) => {
+    isDragging = true;
+    startY = e.touches[0].clientY;
+    card.style.transition = "none";
+  });
+
+  card.addEventListener("touchmove", (e) => {
+    if (!isDragging) return;
+    const deltaPx = startY - e.touches[0].clientY;
+    const deltaVH = pxToVH(deltaPx);
+    let newBottom = initialBottom + deltaVH;
+    newBottom = Math.min(openPos, Math.max(closedPos, newBottom));
+    setCardBottom(newBottom);
+  });
+
+  card.addEventListener("touchend", () => {
+    isDragging = false;
+    card.style.transition = "bottom 0.3s ease";
+    const currentBottom = parseFloat(card.style.bottom);
+    if (currentBottom > closedPos + threshold) {
+      setCardBottom(openPos);
+      initialBottom = openPos;
+    } else {
+      setCardBottom(closedPos);
+      initialBottom = closedPos;
+    }
+  });
+
+  // Define estado inicial do card
+  setCardBottom(closedPos);
 });
