@@ -51,8 +51,6 @@ btnGaleria.addEventListener("click", function () {
 
 const btnFecharGaleria = document.getElementById("btnFecharGaleria");
 
-
-
 btnFecharGaleria.addEventListener("click", function () {
   // Garante que a galeria esteja na posição correta para animar
   galeriaTela.style.transform = "translateX(0)";
@@ -241,7 +239,7 @@ btnFecharVideo?.addEventListener("click", () => {
 
 
 const btnProjeto = document.getElementById("btnProjeto");
-const projetoDiferenciaisTela = document.getElementById("projeto-diferenciais");
+const projetoImplantacaoTela = document.getElementById("projeto-implantacao");
 
 btnProjeto.addEventListener("click", () => {
   menuTela.style.animation = "slideOut 0.8s forwards";
@@ -250,13 +248,20 @@ btnProjeto.addEventListener("click", () => {
     menuTela.style.display = "none";
 
     // Reseta a posição para iniciar fora da tela à direita
-    projetoDiferenciaisTela.style.transform = "translateX(100%)";
-    projetoDiferenciaisTela.style.display = "block";
+    projetoImplantacaoTela.style.transform = "translateX(100%)";
+    projetoImplantacaoTela.style.display = "block";
 
-    // Aplica duas animações: fadeIn rápido e slideInRight para a entrada
-    projetoDiferenciaisTela.style.animation = "fadeIn 0.2s ease-out, slideIn 0.8s forwards";
+    // Aplica animações de entrada
+    projetoImplantacaoTela.style.animation = "fadeIn 0.2s ease-out, slideIn 0.8s forwards";
+    projetoImplantacaoTela.classList.add("ativo");
 
-    projetoDiferenciaisTela.classList.add("ativo");
+    // Ação para o fade do bloco branco
+    const blocoBranco = document.getElementById("blocoBrancoImplantacao");
+    if (blocoBranco) {
+      blocoBranco.classList.remove("ativo");
+      void blocoBranco.offsetWidth; // força reflow
+      blocoBranco.classList.add("ativo");
+    }
   }, 500);
 });
 
@@ -371,6 +376,7 @@ imagemPrincipal.addEventListener("mousedown", (e) => {
 });
 
 const btnFecharProjetoDiferenciais = document.getElementById("btnFecharProjetoDiferenciais");
+const projetoDiferenciaisTela = document.getElementById("projeto-diferenciais");
 
 btnFecharProjetoDiferenciais.addEventListener("click", function () {
   // Aplica animação de saída (slide para a esquerda)
@@ -477,6 +483,12 @@ botoes.forEach(botao => {
     todasAsTelas.forEach(tela => {
       tela.style.display = 'none';
       tela.classList.remove('ativo');
+      if (tela.id === 'projeto-implantacao') {
+        const blocoBranco = document.getElementById("blocoBrancoImplantacao");
+        if (blocoBranco) {
+          blocoBranco.classList.remove("ativo");
+        }
+      }
     });
 
     // Exibe a nova tela
@@ -523,6 +535,19 @@ botoes.forEach(botao => {
         }
       }, 50); // pequeno delay para garantir que o layout foi renderizado
     }
+
+    if (idTela === 'projeto-implantacao') {
+      novaTela.classList.remove('ativo');
+      void novaTela.offsetWidth;
+      novaTela.classList.add('ativo');
+
+      const blocoBranco = document.getElementById("blocoBrancoImplantacao");
+      if (blocoBranco) {
+        blocoBranco.classList.remove("ativo");
+        void blocoBranco.offsetWidth; // força reflow
+        blocoBranco.classList.add("ativo");
+      }
+    }
   });
 });
 
@@ -539,6 +564,25 @@ btnFecharProjetoFichaTecnica.addEventListener("click", function () {
     projetoFichaTecnicaTela.style.display = "none";
     projetoFichaTecnicaTela.style.animation = "";
     projetoFichaTecnicaTela.classList.remove("ativo");
+
+    // Retorna ao menu com animação de entrada da direita
+    menuTela.style.display = "block";
+    menuTela.style.animation = "slideInRight 0.5s forwards";
+  }, 500);
+});
+
+
+const btnFecharProjetoImplantacao = document.getElementById("btnFecharProjetoImplantacao");
+
+btnFecharProjetoImplantacao.addEventListener("click", function () {
+  // Aplica animação de saída (slide para a esquerda)
+  projetoImplantacaoTela.style.animation = "slideOutLeft 0.5s forwards";
+
+  setTimeout(function () {
+    // Oculta a tela do projeto-diferenciais e reseta o estado
+    projetoImplantacaoTela.style.display = "none";
+    projetoImplantacaoTela.style.animation = "";
+    projetoImplantacaoTela.classList.remove("ativo");
 
     // Retorna ao menu com animação de entrada da direita
     menuTela.style.display = "block";
@@ -1169,3 +1213,94 @@ btnFecharChaincorp.addEventListener("click", () => {
     menuTela.style.animation = "slideInRight 0.5s forwards";
   }, 500);
 });
+
+const plantas = [
+  "images/tela-projeto/implantacao/rooftop/com-lupa.png",
+  "images/tela-projeto/implantacao/15/com-lupa.png",
+  "images/tela-projeto/implantacao/14/com-lupa.png",
+  "images/tela-projeto/implantacao/terreo/com-lupa.png"
+];
+
+const textos = [
+  "images/tela-projeto/implantacao/rooftop/rooftop.png",
+  "images/tela-projeto/implantacao/15/pavimento-15.png",
+  "images/tela-projeto/implantacao/14/pavimento-14.png",
+  "images/tela-projeto/implantacao/terreo/terreo.png"
+];
+
+let index = 0;
+
+const imagemPlanta = document.getElementById("imagemPlanta");
+const imagemTexto = document.getElementById("imagemTexto");
+// Seleciona a imagem do bloco branco dentro do container
+const blocoBrancoImg = document.querySelector("#blocoBrancoImplantacao .bloco-branco-img");
+
+function atualizarImagens() {
+  // Aplica fade-out nas imagens da planta e do texto
+  imagemPlanta.classList.add("fade-out");
+  imagemTexto.classList.add("fade-out");
+
+  setTimeout(() => {
+    // Atualiza as imagens de planta e texto
+    imagemPlanta.src = plantas[index];
+    imagemTexto.src = textos[index];
+
+    // Atualiza a imagem do bloco branco conforme o índice:
+    // Índices 0 e 2 (rooftop e pavimento 14) → imagem A;
+    // Índices 1 e 3 (pavimento 15 e térreo) → imagem B.
+    if (blocoBrancoImg) {
+      if (index === 0 || index === 2) {
+        blocoBrancoImg.src = "images/tela-projeto/implantacao/retangulo-branco-1.png";
+      } else {
+        blocoBrancoImg.src = "images/tela-projeto/implantacao/retangulo-branco-2.png";
+      }
+    }
+
+    // Ao carregar a nova imagem, remove a classe de fade para disparar o efeito de fade-in
+    imagemPlanta.onload = () => imagemPlanta.classList.remove("fade-out");
+    imagemTexto.onload = () => imagemTexto.classList.remove("fade-out");
+  }, 300); // tempo do fade-out
+}
+
+document.getElementById("setaDireita").addEventListener("click", () => {
+  index = (index + 1) % plantas.length;
+  atualizarImagens();
+});
+
+document.getElementById("setaEsquerda").addEventListener("click", () => {
+  index = (index - 1 + plantas.length) % plantas.length;
+  atualizarImagens();
+});
+
+let indexPopUp = 0;
+
+// Array de imagens para cada índice
+const popups = [
+  "images/tela-projeto/implantacao/rooftop/sem-lupa.png",
+  "images/tela-projeto/implantacao/15/sem-lupa.png",
+  "images/tela-projeto/implantacao/14/sem-lupa.png",
+  "images/tela-projeto/implantacao/terreo/sem-lupa.png"
+];
+
+const popupPlanta = document.getElementById("popupPlanta");
+const popupPlantaImg = document.getElementById("popupPlantaImg");
+const popupPlantaOverlay = document.getElementById("popupPlantaOverlay");
+
+// Abre o popup com base no índice atual da planta
+imagemPlanta.addEventListener("click", () => {
+  popupPlantaImg.src = popups[index]; // usa o mesmo índice da planta atual
+  popupPlanta.classList.add("mostrar");
+});
+
+popupPlantaOverlay.addEventListener("click", (e) => {
+  if (e.target === e.currentTarget) {
+    popupPlanta.classList.remove("mostrar");
+
+    // Aguarda o tempo da animação para limpar a imagem (evita piscar)
+    setTimeout(() => {
+      popupPlantaImg.src = "";
+    }, 400); // mesmo tempo da sua transição CSS
+  }
+});
+
+
