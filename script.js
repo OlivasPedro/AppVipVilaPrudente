@@ -168,17 +168,19 @@ const popupZoom = document.getElementById("popupZoom");
 const popupOverlay = document.querySelector(".popup-overlay");
 const popupContent = document.querySelector(".popup-content");
 
-// Abrir popup ao clicar na imagem principal
 imagemPrincipal.addEventListener("click", () => {
   if (!wasDragged) {
+    const nome = nomesDasImagens[indexAtual];
+    const timestamp = Date.now();
+    imagemZoom.src = `./images/tela-galeria/FOTOS/${gerarNomePopup(nome)}?v=${timestamp}`;
+
     popupZoom.style.display = "flex";
     setTimeout(() => {
       popupOverlay.style.opacity = 1;
     }, 10);
   }
-  // Resetar após o clique
-  wasDragged = false;
 });
+
 
 
 // Fechar popup ao clicar fora da imagem
@@ -202,7 +204,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const fecharPopupVideo = document.getElementById("fecharPopupVideo");
   const youtubeFrame = document.getElementById("youtubeFrame");
 
-  const youtubeLink = "https://www.youtube.com/embed/ScMzIvxBSi4";
+  const youtubeLink = ""; //embed
 
   if (btnFilme && popupVideo && fecharPopupVideo && youtubeFrame) {
     btnFilme.addEventListener("click", () => {
@@ -399,22 +401,43 @@ iconeButtons.forEach(btn => {
         caminhoPopup = "images/tela-galeria/FOTOS/Chaincorp_Vila_Prudente_Living_04_Duplex_2_HR.jpg";
         break;
       case "cinema":
-        caminhoPopup = "images/tela-projeto/diferenciais/FOTOS/Chaincorp_Vila_Prudente_Cine_Open_HR.jpg";
-        break;
-      case "coworking":
-        caminhoPopup = "images/tela-projeto/diferenciais/FOTOS/Chaincorp_Vila_Prudente_Coworking_HR.jpg";
+        caminhoPopup = "images/tela-galeria/FOTOS/Chaincorp_Vila_Prudente_Cine_Open_HR.jpg";
         break;
       case "game-pub":
-        caminhoPopup = "images/tela-projeto/diferenciais/FOTOS/Chaincorp_Vila_Prudente_Game_Pub_HR.jpg";
+        caminhoPopup = "images/tela-galeria/FOTOS/Chaincorp_Vila_Prudente_Game_Pub_HR.jpg";
+        break;
+      case "coworking":
+        caminhoPopup = "images/tela-galeria/FOTOS/Chaincorp_Vila_Prudente_Coworking_HR.jpg";
+        break;
+      case "sauna":
+        caminhoPopup = "images/tela-galeria/FOTOS/Chaincorp_Vila_Prudente_Sauna_HR.jpg";
+        break;
+      case "torre-unica":
+        caminhoPopup = "images/tela-galeria/FOTOS/Chaincorp_Vila_Prudente_Fachada_Noturna_HR.jpg";
+        break;
+      case "gourmet":
+        caminhoPopup = "images/tela-galeria/FOTOS/Chaincorp_Vila_Prudente_Gourmet_HR.jpg";
+        break;
+      case "design-e-personalidade":
+        caminhoPopup = "images/tela-galeria/FOTOS/Chaincorp_Vila_Prudente_Living_02_HR.jpg";
+        break;
+      case "lavanderia":
+        caminhoPopup = "images/tela-galeria/FOTOS/Chaincorp_Vila_Prudente_Lavanderia_HR.jpg";
+        break;
+      case "churrasqueira":
+        caminhoPopup = "images/tela-galeria/FOTOS/Chaincorp_Vila_Prudente_Churrasqueira_HR.jpg";
+        break;
+      case "bicicletario":
+        caminhoPopup = "images/tela-galeria/FOTOS/Chaincorp_Vila_Prudente_Bicicletario_HR.jpg";
         break;
       case "mercadinho":
-        caminhoPopup = "images/tela-projeto/diferenciais/FOTOS/Chaincorp_Vila_Prudente_Mercadinho_HR.jpg";
+        caminhoPopup = "images/tela-galeria/FOTOS/Chaincorp_Vila_Prudente_Mercadinho_HR.jpg";
         break;
+
       default:
-        caminhoPopup = ""; // fallback
+        caminhoPopup = "";
     }
 
-    // Abre o popup se houver imagem
     if (caminhoPopup) {
       imagemZoom.src = caminhoPopup;
       popupZoom.style.display = "flex";
@@ -424,6 +447,7 @@ iconeButtons.forEach(btn => {
     }
   });
 });
+
 
 const botoes = document.querySelectorAll('.botao-projeto');
 const todasAsTelas = document.querySelectorAll('section[id^="projeto-"]');
