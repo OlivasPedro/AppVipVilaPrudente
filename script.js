@@ -1074,6 +1074,7 @@ function getDistance(touch1, touch2) {
 }
 
 const btnRealizacao = document.getElementById("btnRealizacao");
+const telaVilaPrudente = document.getElementById("tela-vip-vila-prudente");
 const telaChaincorp = document.getElementById("tela-chaincorp");
 const btnFecharChaincorp = document.getElementById("btnFecharChaincorp");
 
@@ -1081,9 +1082,9 @@ btnRealizacao.addEventListener("click", () => {
   menuTela.style.animation = "slideOut 0.8s forwards";
   setTimeout(() => {
     menuTela.style.display = "none";
-    telaChaincorp.style.display = "block";
-    telaChaincorp.style.animation = "fadeIn 0.3s ease-out, slideIn 0.8s forwards";
-    telaChaincorp.classList.add("ativo");
+    telaVilaPrudente.style.display = "block";
+    telaVilaPrudente.style.animation = "fadeIn 0.3s ease-out, slideIn 0.8s forwards";
+    telaVilaPrudente.classList.add("ativo");
   }, 500);
 });
 
@@ -1109,11 +1110,21 @@ const btnFecharVip = document.getElementById("btnFecharVip");
 
 // Vai da Chaincorp para a tela VIP
 btnChaincorpToVip.addEventListener("click", () => {
+  // Esconde a VIP
   telaChaincorp.style.display = "none";
   telaChaincorp.classList.remove("ativo");
 
+  // Mostra a Chaincorp
   telaVip.style.display = "block";
   telaVip.classList.add("ativo");
+
+  // Zera qualquer animação/resquício
+  telaVip.style.animation = "none";
+  telaVip.style.opacity = "1";
+
+  const conteudoVip = document.querySelector(".conteudo-vip");
+  conteudoVip.style.animation = "none";
+  conteudoVip.style.opacity = "1";
 });
 
 // Volta da VIP para a tela Chaincorp
