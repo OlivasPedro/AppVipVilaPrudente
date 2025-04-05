@@ -383,6 +383,12 @@ body {
   cursor: pointer;
 }
 
+#btnRealizacao {
+  position: relative;
+  z-index: 100;
+  cursor: pointer;
+}
+
 .galeria-content {
   position: absolute;
   top: 50%;
@@ -1546,3 +1552,220 @@ body {
   z-index: 10;
   pointer-events: none;
 }
+
+.tela-chaincorp {
+  display: none;
+  position: absolute;
+  inset: 0;
+  z-index: 999;
+  opacity: 0;
+  transition: opacity 0.8s ease;
+}
+
+.tela-chaincorp.ativo {
+  display: block;
+  opacity: 1;
+}
+
+
+.conteudo-chaincorp {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  opacity: 1;
+}
+
+
+.chaincorp-fundo {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Hexágono no estilo da barra-lateral-localizacao */
+.hex-container-chaincorp {
+  position: absolute;
+  top: 50%;
+  left: -2vw;
+  transform: translateY(-50%);
+  width: 9vw;
+  height: 65vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+  z-index: 10;
+}
+
+.hex-base-chaincorp {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: fill;
+  z-index: 1;
+  pointer-events: none;
+}
+
+/* Botões dentro do hexágono */
+.botoes-hex-chaincorp {
+  position: absolute;
+  top: 50%;
+  left: 8.8vw;
+  transform: translate(-50%, -50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2.5vh;
+  z-index: 100;
+  pointer-events: auto;
+  width: 80%;
+}
+
+.botao-chaincorp {
+  width: auto;
+  height: 12.3vh;
+  transition: transform 0.2s ease;
+  cursor: pointer;
+}
+
+.botao-chaincorp:hover {
+  transform: scale(1.05);
+}
+
+.botao-chaincorp-selecionado {
+  height: 14.3vh;
+  transition: height 0.3s ease;
+  cursor: pointer;
+}
+
+/* Botão de fechar */
+.btn-fechar-chaincorp {
+  position: absolute;
+  top: 3vh;
+  right: 2vw;
+  background: none;
+  border: none;
+  cursor: pointer;
+  z-index: 20;
+}
+
+.btn-fechar-chaincorp img {
+  width: 3vw;
+  height: auto;
+}
+
+/* Tela VIP Vila Prudente */
+.tela-vip-vila-prudente {
+  display: none;
+  position: absolute;
+  inset: 0;
+  z-index: 999;
+  opacity: 0;
+  transition: opacity 0.8s ease;
+}
+
+.tela-vip-vila-prudente.ativo {
+  display: block;
+  opacity: 1;
+}
+
+.vip-fundo {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.hex-container-vip {
+  position: absolute;
+  top: 50%;
+  left: -2vw;
+  transform: translateY(-50%);
+  width: 9vw;
+  height: 65vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+  z-index: 10;
+}
+
+.hex-base-vip {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: fill;
+  z-index: 1;
+  pointer-events: none;
+}
+
+.botoes-hex-vip {
+  position: absolute;
+  top: 50%;
+  left: 8.8vw;
+  transform: translate(-50%, -50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2.5vh;
+  z-index: 100;
+  pointer-events: auto;
+  width: 80%;
+}
+
+.botao-vip {
+  width: auto;
+  height: 12.3vh;
+  transition: transform 0.2s ease;
+  cursor: pointer;
+}
+
+.botao-vip:hover {
+  transform: scale(1.05);
+}
+
+.botao-vip-selecionado {
+  height: 14.3vh;
+  transition: height 0.3s ease;
+  cursor: pointer;
+}
+
+.btn-fechar-vip {
+  position: absolute;
+  top: 3vh;
+  right: 2vw;
+  background: none;
+  border: none;
+  cursor: pointer;
+  z-index: 20;
+}
+
+.btn-fechar-vip img {
+  width: 3vw;
+  height: auto;
+}
+
+.imagem-hex-chaincorp,
+.imagem-hex-vip {
+  position: absolute;
+  top: 0;
+  left: 14vw;
+  height: auto;
+  width: 43vw;
+  z-index: 2;
+  pointer-events: none;
+  animation: fadeInText 0.8s ease forwards;
+}
+
+@keyframes fadeInText {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+

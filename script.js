@@ -1072,3 +1072,89 @@ function getDistance(touch1, touch2) {
   const dy = touch1.clientY - touch2.clientY;
   return Math.sqrt(dx * dx + dy * dy);
 }
+
+const btnRealizacao = document.getElementById("btnRealizacao");
+const telaChaincorp = document.getElementById("tela-chaincorp");
+const btnFecharChaincorp = document.getElementById("btnFecharChaincorp");
+
+btnRealizacao.addEventListener("click", () => {
+  menuTela.style.animation = "slideOut 0.8s forwards";
+  setTimeout(() => {
+    menuTela.style.display = "none";
+    telaChaincorp.style.display = "block";
+    telaChaincorp.style.animation = "fadeIn 0.3s ease-out, slideIn 0.8s forwards";
+    telaChaincorp.classList.add("ativo");
+  }, 500);
+});
+
+btnFecharChaincorp.addEventListener("click", () => {
+  telaChaincorp.style.animation = "slideOutLeft 0.5s forwards";
+  setTimeout(() => {
+    telaChaincorp.style.display = "none";
+    telaChaincorp.classList.remove("ativo");
+
+    menuTela.style.display = "block";
+    menuTela.style.animation = "slideInRight 0.5s forwards";
+  }, 500);
+});
+
+
+const telaVip = document.getElementById("tela-vip-vila-prudente");
+
+const btnChaincorpToVip = document.getElementById("btnChaincorp2");
+const btnVipToChaincorp = document.getElementById("btnVipChaincorp");
+
+const btnFecharVip = document.getElementById("btnFecharVip");
+
+
+// Vai da Chaincorp para a tela VIP
+btnChaincorpToVip.addEventListener("click", () => {
+  telaChaincorp.style.display = "none";
+  telaChaincorp.classList.remove("ativo");
+
+  telaVip.style.display = "block";
+  telaVip.classList.add("ativo");
+});
+
+// Volta da VIP para a tela Chaincorp
+btnVipToChaincorp.addEventListener("click", () => {
+  // Esconde a VIP
+  telaVip.style.display = "none";
+  telaVip.classList.remove("ativo");
+
+  // Mostra a Chaincorp
+  telaChaincorp.style.display = "block";
+  telaChaincorp.classList.add("ativo");
+
+  // Zera qualquer animação/resquício
+  telaChaincorp.style.animation = "none";
+  telaChaincorp.style.opacity = "1";
+
+  const conteudoChaincorp = document.querySelector(".conteudo-chaincorp");
+  conteudoChaincorp.style.animation = "none";
+  conteudoChaincorp.style.opacity = "1";
+});
+
+// Fechar tela VIP e voltar para o menu
+btnFecharVip.addEventListener("click", () => {
+  telaVip.style.animation = "slideOutLeft 0.5s forwards";
+  setTimeout(() => {
+    telaVip.style.display = "none";
+    telaVip.classList.remove("ativo");
+
+    menuTela.style.display = "block";
+    menuTela.style.animation = "slideInRight 0.5s forwards";
+  }, 500);
+});
+
+// Fechar tela Chaincorp e voltar para o menu
+btnFecharChaincorp.addEventListener("click", () => {
+  telaChaincorp.style.animation = "slideOutLeft 0.5s forwards";
+  setTimeout(() => {
+    telaChaincorp.style.display = "none";
+    telaChaincorp.classList.remove("ativo");
+
+    menuTela.style.display = "block";
+    menuTela.style.animation = "slideInRight 0.5s forwards";
+  }, 500);
+});
